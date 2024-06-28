@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+
+import {Card} from "react-bootstrap";
 
 function App() {
     const [confessions, setConfessions] = useState([])
@@ -21,10 +21,12 @@ function App() {
   return (
     <>
         {confessions.map(i => (
-            <>
-                <h2>{i.name_to}</h2>
-                <p>{i.content}</p>
-            </>
+            <Card className={"m-2"}>
+                <Card.Body>
+                    <Card.Title>To: {i.name_to}</Card.Title>
+                    <Card.Text>{i.content}</Card.Text>
+                </Card.Body>
+            </Card>
         ))}
     </>
   )
