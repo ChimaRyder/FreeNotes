@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react'
 import './App.css'
-
-import {Card} from "react-bootstrap";
+import Navbar from "@/components/Navbar.jsx";
 
 function App() {
     const [confessions, setConfessions] = useState([])
@@ -20,13 +19,15 @@ function App() {
 
   return (
     <>
+        <Navbar></Navbar>
         {confessions.map(i => (
-            <Card className={"m-2"}>
-                <Card.Body>
-                    <Card.Title>To: {i.name_to}</Card.Title>
-                    <Card.Text>{i.content}</Card.Text>
-                </Card.Body>
-            </Card>
+            <>
+
+                <div>
+                    <h2>To: {i.name_to}</h2>
+                    <p>{i.content}</p>
+                </div>
+            </>
         ))}
     </>
   )
