@@ -6,6 +6,7 @@ import {Form, FormControl, FormDescription, FormField, FormItem, FormMessage} fr
 import {Input} from "@/components/ui/input.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Separator} from "@/components/ui/separator.jsx";
+import axios from "axios";
 
 const signupSchema = z.object({
     username: z
@@ -27,6 +28,26 @@ const signupSchema = z.object({
             path: ['confirmpassword']
         });
     }
+}).superRefine(async ({username}, ctx) => {
+    const userExists = async () => {
+        const res = await fetch("http://localhost:3000/userSearch?query=" + username)
+        const data = await res.json();
+        return data.userExists;
+    }
+
+    const x = await userExists().then((value) => {
+        return value;
+    }).catch((err) => {
+        console.log(err);
+    })
+
+    if (x) {
+        ctx.addIssue({
+            code: "custom",
+            message: "Username already exists.",
+            path: ['username']
+        });
+    }
 });
 
 const SignUpCard = () => {
@@ -39,8 +60,10 @@ const SignUpCard = () => {
         },
     })
 
-    function onSubmit(values) {
-        console.log(values);
+    const onSubmit = (user) => {
+        axios.post('http://localhost:3000/register', user)
+            .then(result => console.log(result))
+            .catch(err => console.log(err))
     }
 
     return (

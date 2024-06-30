@@ -9,8 +9,6 @@ function App() {
         const fetchConfessions = async () => {
             const res = await fetch('http://localhost:3000/search')
             const data = await res.json()
-            console.log(data)
-            console.log(data)
             setConfessions(data.confessions)
         }
 
