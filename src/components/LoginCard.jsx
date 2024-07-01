@@ -12,6 +12,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Input} from "@/components/ui/input.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Separator} from "@/components/ui/separator.jsx";
+import {Link} from "react-router-dom";
 
 const loginSchema = z.object({
     username: z
@@ -78,7 +79,7 @@ const LoginCard = () => {
                </Separator>
 
                <Button asChild className={"w-full !mt-5"}>
-                   <a href="/signup/">Sign Up</a>
+                   <Link to="/signup">Sign Up</Link>
                </Button>
            </CardContent>
        </Card>

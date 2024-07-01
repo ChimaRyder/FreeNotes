@@ -5,11 +5,10 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Form, FormControl, FormDescription, FormField, FormItem, FormMessage} from "@/components/ui/form.jsx";
 import {Input} from "@/components/ui/input.jsx";
 import {Button} from "@/components/ui/button.jsx";
-import {Separator} from "@/components/ui/separator.jsx";
 import axios from "axios";
 import {toast} from "sonner";
-import {Toaster} from "@/components/ui/sonner.jsx";
 import {IconCircleCheckFilled} from "@tabler/icons-react"
+import {useNavigate} from "react-router-dom"
 
 const signupSchema = z.object({
     username: z
@@ -54,6 +53,7 @@ const signupSchema = z.object({
 });
 
 const SignUpCard = () => {
+    const navigate = useNavigate();
     const form = useForm({
         resolver:zodResolver(signupSchema),
         defaultValues: {
@@ -67,10 +67,10 @@ const SignUpCard = () => {
         axios.post('http://localhost:3000/register', user)
             .then(result => {
                 console.log(result);
-                toast("Success!", {
+                toast.success("Success!", {
                     description:"Your account has been created. Please login.",
-                    icon: <IconCircleCheckFilled/>,
                 })
+                navigate('/');
             })
             .catch(err => console.log(err))
     }
@@ -128,8 +128,6 @@ const SignUpCard = () => {
                 </Form>
             </CardContent>
         </Card>
-
-        <Toaster/>
         </>
     )
 }

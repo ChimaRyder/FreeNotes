@@ -1,34 +1,21 @@
-import {useEffect, useState} from 'react'
 import './App.css'
 import Navbar from "@/components/Navbar.jsx";
 import {Toaster} from "@/components/ui/sonner.jsx";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import SignUpPage from "@/signup/SignUpPage.jsx";
+import Main from "@/main/Main.jsx";
 
 function App() {
-    const [confessions, setConfessions] = useState([])
-    useEffect(() => {
-
-        const fetchConfessions = async () => {
-            const res = await fetch('http://localhost:3000/search?query=Frenz')
-            const data = await res.json()
-            setConfessions(data.confessions)
-        }
-
-        fetchConfessions();
-    }, []);
-
   return (
     <>
-        <Navbar></Navbar>
-        <Toaster/>
-        {confessions.map(i => (
-            <>
-
-                <div>
-                    <h2>To: {i.name_to}</h2>
-                    <p>{i.content}</p>
-                </div>
-            </>
-        ))}
+        <BrowserRouter>
+            <Navbar></Navbar>
+            <Routes>
+                <Route index element={<Main/>}/>
+                <Route path={"/signup"} element={<SignUpPage/>}/>
+            </Routes>
+            <Toaster/>
+        </BrowserRouter>
     </>
   )
 }

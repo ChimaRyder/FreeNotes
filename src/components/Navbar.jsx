@@ -7,6 +7,7 @@ import {
 import {IconUserFilled} from "@tabler/icons-react";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.jsx";
 import LoginCard from "@/components/LoginCard.jsx";
+import {Link} from "react-router-dom"
 
 
 
@@ -15,7 +16,7 @@ const Navbar = () => {
        <NavigationMenu className={"max-w-full justify-between"}>
            <NavigationMenuList>
                <NavigationMenuItem className={"mr-5"}>
-                   <NavigationMenuLink className={"font-bold cursor-pointer"} href={"/"}>FreeNotes</NavigationMenuLink>
+                   <Link to={"/"}><NavigationMenuLink className={"font-bold cursor-pointer"}>FreeNotes</NavigationMenuLink></Link>
                </NavigationMenuItem>
                <NavigationMenuItem>
                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>About</NavigationMenuLink>
