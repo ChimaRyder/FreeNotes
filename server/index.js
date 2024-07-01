@@ -25,7 +25,13 @@ app.get('/userSearch', async (req, res) => {
 })
 
 app.post('/register', (req, res) => {
-    userModel.create(req.body)
+    const {username, password} = req.body;
+    const user = new userModel();
+
+    user.username = username;
+    user.password = user.generateHash(password);
+
+    user.save()
         .then(users => res.json(users))
         .catch(err => res.json(err))
 })

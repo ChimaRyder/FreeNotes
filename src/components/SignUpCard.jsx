@@ -7,6 +7,9 @@ import {Input} from "@/components/ui/input.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Separator} from "@/components/ui/separator.jsx";
 import axios from "axios";
+import {toast} from "sonner";
+import {Toaster} from "@/components/ui/sonner.jsx";
+import {IconCircleCheckFilled} from "@tabler/icons-react"
 
 const signupSchema = z.object({
     username: z
@@ -62,11 +65,18 @@ const SignUpCard = () => {
 
     const onSubmit = (user) => {
         axios.post('http://localhost:3000/register', user)
-            .then(result => console.log(result))
+            .then(result => {
+                console.log(result);
+                toast("Success!", {
+                    description:"Your account has been created. Please login.",
+                    icon: <IconCircleCheckFilled/>,
+                })
+            })
             .catch(err => console.log(err))
     }
 
     return (
+        <>
         <Card className={"w-[350px]"}>
             <CardHeader>
                 <CardTitle>Sign Up!</CardTitle>
@@ -118,6 +128,9 @@ const SignUpCard = () => {
                 </Form>
             </CardContent>
         </Card>
+
+        <Toaster/>
+        </>
     )
 }
 
