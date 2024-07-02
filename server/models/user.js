@@ -10,7 +10,7 @@ userSchema.methods.generateHash = (password) => {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 }
 
-userSchema.methods.validate = (password) => {
+userSchema.methods.validate = function(password) {
     return bcrypt.compareSync(password, this.password);
 }
 

@@ -16,7 +16,7 @@ const Navbar = () => {
        <NavigationMenu className={"max-w-full justify-between"}>
            <NavigationMenuList>
                <NavigationMenuItem className={"mr-5"}>
-                   <Link to={"/"}><NavigationMenuLink className={"font-bold cursor-pointer"}>FreeNotes</NavigationMenuLink></Link>
+                   <NavigationMenuLink asChild to={"/"} className={"font-bold cursor-pointer"}><Link to={"/"}>FreeNotes</Link></NavigationMenuLink>
                </NavigationMenuItem>
                <NavigationMenuItem>
                    <NavigationMenuLink className={navigationMenuTriggerStyle()}>About</NavigationMenuLink>

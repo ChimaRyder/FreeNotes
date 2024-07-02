@@ -12,7 +12,9 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Input} from "@/components/ui/input.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Separator} from "@/components/ui/separator.jsx";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import axios from "axios"
+import {useState} from "react";
 
 const loginSchema = z.object({
     username: z
@@ -23,6 +25,8 @@ const loginSchema = z.object({
         .min(1, "Please enter your password."),
 })
 const LoginCard = () => {
+    const [message, setMessage] = useState("");
+    const navigate = useNavigate();
 
     const form = useForm({
         resolver:zodResolver(loginSchema),
@@ -32,8 +36,19 @@ const LoginCard = () => {
         },
     })
 
-    function onSubmit(values) {
-        console.log(values);
+    function onSubmit(user) {
+        axios.post('http://localhost:3000/login', user)
+            .then(result => {
+                if (result.data !== "Success.") {
+                    setMessage(result.data)
+                } else {
+                    setMessage("");
+                    navigate("/");
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     return (
@@ -53,7 +68,6 @@ const LoginCard = () => {
                                    <FormControl>
                                        <Input placeholder={"Username"} {...field}/>
                                    </FormControl>
-                                   <FormMessage/>
                                </FormItem>
                            )}
                        />
@@ -65,8 +79,8 @@ const LoginCard = () => {
                                    <FormControl>
                                        <Input type="password" placeholder={"Password"} {...field}/>
                                    </FormControl>
-                                   <FormDescription className={"text-xs hover:text-foreground"}><a href={"#"}>Forgot your password?</a></FormDescription>
-                                   <FormMessage/>
+                                   <FormDescription className={"text-xs hover:text-foreground"}><Link to={"#"}>Forgot your password?</Link></FormDescription>
+                                   <FormMessage>{message}</FormMessage>
                                </FormItem>
                            )}
                        />

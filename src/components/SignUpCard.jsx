@@ -7,7 +7,6 @@ import {Input} from "@/components/ui/input.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import axios from "axios";
 import {toast} from "sonner";
-import {IconCircleCheckFilled} from "@tabler/icons-react"
 import {useNavigate} from "react-router-dom"
 
 const signupSchema = z.object({

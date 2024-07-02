@@ -36,6 +36,27 @@ app.post('/register', (req, res) => {
         .catch(err => res.json(err))
 })
 
+app.post('/login', (req, res) => {
+    const {username, password} = req.body;
+    userModel.findOne({username})
+        .then(user => {
+            if(!user) {
+                return res.json("Invalid username or password.");
+            }
+
+            if (!user.validate(password)) {
+                return res.json("Invalid username or password.")
+            } else {
+                return res.json("Success.");
+            }
+
+        })
+        .catch(err => {
+            console.log(err)
+            res.json(err);
+        })
+})
+
 app.listen(3000, () => {
     console.log("listening to port 3000");
 })
