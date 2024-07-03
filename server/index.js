@@ -5,10 +5,16 @@ const userModel = require('./models/user.js')
 const confessionModel = require('./models/confession.js')
 const cors = require('cors')
 const {response} = require("express");
+const jwt = require('jsonwebtoken');
+const cookieparser = require('cookie-parser');
 
 const app = express()
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    credentials: true,
+    origin: "http://localhost:5173",
+}))
+app.use(cookieparser())
 
 connectDB()
 
@@ -38,16 +44,23 @@ app.post('/register', (req, res) => {
 
 app.post('/login', (req, res) => {
     const {username, password} = req.body;
+
     userModel.findOne({username})
         .then(user => {
             if(!user) {
-                return res.json("Invalid username or password.");
+                return res.status(401).send("Invalid username or password.");
             }
 
             if (!user.validate(password)) {
-                return res.json("Invalid username or password.")
+                return res.status(401).send("Invalid username or password.")
             } else {
-                return res.json("Success.");
+                const token = user.generateAuth();
+
+                res.cookie("SESSION_TOKEN", token, {
+                    httpOnly: true,
+                })
+
+                return res.status(200).json(req.body);
             }
 
         })
@@ -55,6 +68,25 @@ app.post('/login', (req, res) => {
             console.log(err)
             res.json(err);
         })
+})
+
+app.get('/auth/token', (req, res) => {
+    try {
+        const token = req.cookies.SESSION_TOKEN;
+        const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        userModel.findById(_id)
+            .then(user => {
+                req.user = user;
+                return res.status(200).json(req.user);
+            })
+            .catch(() => {
+                res.clearCookie("SESSION_TOKEN");
+                return res.status(403).send('User no longer not exist.');
+            })
+    } catch {
+        res.clearCookie("SESSION_TOKEN");
+        return res.status(403).send('Token does not exist or has expired');
+    }
 })
 
 app.listen(3000, () => {

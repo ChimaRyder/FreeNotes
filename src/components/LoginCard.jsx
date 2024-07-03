@@ -37,17 +37,16 @@ const LoginCard = () => {
     })
 
     function onSubmit(user) {
+        axios.defaults.withCredentials = true;
         axios.post('http://localhost:3000/login', user)
             .then(result => {
-                if (result.data !== "Success.") {
-                    setMessage(result.data)
-                } else {
-                    setMessage("");
-                    navigate("/");
-                }
+                console.log(result);
+                setMessage("");
+                navigate("/dashboard");
             })
             .catch(err => {
                 console.log(err);
+                setMessage(err.response.data)
             })
     }
 
