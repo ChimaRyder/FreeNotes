@@ -39,7 +39,7 @@ const LoginCard = ({onLogin}) => {
     function onSubmit(user) {
         axios.defaults.withCredentials = true;
         axios.post('http://localhost:3000/login', user)
-            .then(result => {
+            .then(() => {
                 setMessage("");
                 navigate("/dashboard");
                 onLogin();

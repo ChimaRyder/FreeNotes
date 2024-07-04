@@ -8,7 +8,7 @@ const ProfilePopup = ({username, onLogout}) => {
 
     const handleLogout = () => {
         fetch('http://localhost:3000/logout', {credentials: "include"})
-            .then(res => {
+            .then(() => {
                 onLogout();
                 navigate('/');
             })

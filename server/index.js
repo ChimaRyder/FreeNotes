@@ -4,7 +4,6 @@ const connectDB = require('./db.js')
 const userModel = require('./models/user.js')
 const confessionModel = require('./models/confession.js')
 const cors = require('cors')
-const {response} = require("express");
 const jwt = require('jsonwebtoken');
 const cookieparser = require('cookie-parser');
 
