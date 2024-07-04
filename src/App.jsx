@@ -5,7 +5,7 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import SignUpPage from "@/signup/SignUpPage.jsx";
 import Main from "@/main/Main.jsx";
 import DashBoard from "@/dashboard/DashBoard.jsx";
-import Auth from "@/components/ui/Auth.jsx";
+import Auth from "@/components/Auth.jsx";
 
 function App() {
   return (

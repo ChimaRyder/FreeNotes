@@ -51,7 +51,7 @@ app.post('/login', (req, res) => {
                 return res.status(401).send("Invalid username or password.");
             }
 
-            if (!user.validate(password)) {
+            if (!user.validatePassword(password)) {
                 return res.status(401).send("Invalid username or password.")
             } else {
                 const token = user.generateAuth();
@@ -81,12 +81,17 @@ app.get('/auth/token', (req, res) => {
             })
             .catch(() => {
                 res.clearCookie("SESSION_TOKEN");
-                return res.status(403).send('User no longer not exist.');
+                return res.status(401).send('User no longer not exist.');
             })
     } catch {
         res.clearCookie("SESSION_TOKEN");
-        return res.status(403).send('Token does not exist or has expired');
+        return res.status(401).send('Token does not exist or has expired');
     }
+})
+
+app.get('/logout', (req, res) => {
+    res.clearCookie("SESSION_TOKEN");
+    return res.status(200).send("Successful Logout.");
 })
 
 app.listen(3000, () => {

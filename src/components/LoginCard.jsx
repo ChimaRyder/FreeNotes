@@ -24,7 +24,7 @@ const loginSchema = z.object({
         .string()
         .min(1, "Please enter your password."),
 })
-const LoginCard = () => {
+const LoginCard = ({onLogin}) => {
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
 
@@ -40,12 +40,11 @@ const LoginCard = () => {
         axios.defaults.withCredentials = true;
         axios.post('http://localhost:3000/login', user)
             .then(result => {
-                console.log(result);
                 setMessage("");
                 navigate("/dashboard");
+                onLogin();
             })
             .catch(err => {
-                console.log(err);
                 setMessage(err.response.data)
             })
     }
