@@ -41,7 +41,7 @@ const LoginCard = ({onLogin}) => {
         axios.post('http://localhost:3000/login', user)
             .then(() => {
                 setMessage("");
-                navigate("/dashboard");
+                navigate("/dashboard/settings");
                 onLogin();
             })
             .catch(err => {

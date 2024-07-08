@@ -16,7 +16,7 @@ const ProfilePopup = ({username, onLogout}) => {
     }
 
     return (
-        <Card className={"border-0 flex flex-col justify-center items-center"}>
+        <Card className={"border-0 shadow-none flex flex-col justify-center items-center"}>
             <CardHeader className={'!p-3'}>
                 <IconUserFilled size={80}/>
                 <CardTitle className={"!mt-5"}>{username}</CardTitle>
@@ -24,7 +24,7 @@ const ProfilePopup = ({username, onLogout}) => {
             <CardContent className={'flex flex-col w-full space-y-2'}>
                 <Separator className={'my-3'}/>
                 <Button variant={'outline'} className={'w-max-full'} asChild>
-                    <Link to={'/dashboard'}>Dashboard</Link>
+                    <Link to={'/dashboard/settings'}>Dashboard</Link>
                 </Button>
                 <Button variant={'outline'} className={'!w-max-full'} onClick={()=> {handleLogout()}}>Logout</Button>
             </CardContent>
