@@ -5,7 +5,7 @@ import {useState} from "react";
 import {IconLayoutDashboardFilled} from "@tabler/icons-react";
 
 const DashBoard = () => {
-    const [path, setPath] = useState('settings');
+    const [path, setPath] = useState(location.pathname.split('/')[2]);
 
     return (
         <>
