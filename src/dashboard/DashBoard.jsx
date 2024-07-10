@@ -1,7 +1,6 @@
 import {Button} from "@/components/ui/button.jsx";
 import {Link, Outlet, useLocation} from "react-router-dom";
 import {Separator} from "@/components/ui/separator.jsx";
-import {useState} from "react";
 import {IconLayoutDashboardFilled} from "@tabler/icons-react";
 
 const DashBoard = () => {
