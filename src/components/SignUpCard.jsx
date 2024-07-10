@@ -64,8 +64,7 @@ const SignUpCard = () => {
 
     const onSubmit = (user) => {
         axios.post('http://localhost:3000/register', user)
-            .then(result => {
-                console.log(result);
+            .then(() => {
                 toast.success("Success!", {
                     description:"Your account has been created. Please login.",
                 })

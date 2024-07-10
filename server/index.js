@@ -93,6 +93,23 @@ app.get('/logout', (req, res) => {
     return res.status(200).send("Successful Logout.");
 })
 
+app.post('/submitNote', (req, res) => {
+    const token = req.cookies.SESSION_TOKEN;
+    const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+    const {color, name_to, content} = req.body;
+    const confession = new confessionModel();
+
+    confession.user_id = _id;
+    confession.color = color;
+    confession.name_to = name_to;
+    confession.content = content;
+
+    confession.save()
+        .then(conf => res.json(conf))
+        .catch(err => res.json(err))
+})
+
 app.listen(3000, () => {
     console.log("listening to port 3000");
 })
