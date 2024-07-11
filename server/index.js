@@ -23,6 +23,7 @@ app.get('/search', async (req, res) => {
     return res.json({confessions:response})
 })
 
+
 app.get('/userSearch', async (req, res) => {
     const response = await userModel.find({username:req.query.query})
     const userExists = response.length > 0;
@@ -108,6 +109,17 @@ app.post('/submitNote', (req, res) => {
     confession.save()
         .then(conf => res.json(conf))
         .catch(err => res.json(err))
+})
+
+app.get('/getCreatedNotes', async (req, res) => {
+    const token = req.cookies.SESSION_TOKEN;
+    const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+    const response = await confessionModel.find({
+        user_id: _id,
+    })
+
+    return res.json({created_notes : response})
 })
 
 app.listen(3000, () => {
