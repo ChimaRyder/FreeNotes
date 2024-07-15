@@ -9,6 +9,8 @@ import Auth from "@/components/Auth.jsx";
 import Settings from "@/components/dashboard-components/Settings.jsx";
 import CreateNote from "@/components/dashboard-components/CreateNote.jsx";
 import MyNotes from "@/components/dashboard-components/MyNotes.jsx";
+import About from "@/about/About.jsx";
+import {Separator} from "@/components/ui/separator.jsx";
 
 function App() {
   return (
@@ -17,6 +19,7 @@ function App() {
             <Navbar></Navbar>
             <Routes>
                 <Route index element={<Main/>}/>
+                <Route path={'/about'} element={<About/>}/>
                 <Route path={"/signup"} element={<SignUpPage/>}/>
                 <Route element={<Auth/>}>
                     <Route path={"/dashboard"} element={<DashBoard/>}>
@@ -27,6 +30,7 @@ function App() {
                 </Route>
             </Routes>
             <Toaster/>
+            <Separator className={'mt-10 mb-5'}/>
         </BrowserRouter>
     </>
   )

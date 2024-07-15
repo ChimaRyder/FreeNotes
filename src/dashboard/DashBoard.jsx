@@ -9,7 +9,7 @@ const DashBoard = () => {
 
     return (
         <>
-            <div className={'border-2 rounded-2xl min-h-[500px] mt-10 flex min-w-full'}>
+            <div className={'border-2 rounded-2xl min-h-[500px] mt-10 pl-4 pt-3 flex min-w-full'}>
                 <nav className={'flex flex-col max-w-40 space-y-2 m-2'}>
                     <h4 className={'flex font-bold mt-2 mb-3 text-lg'}><IconLayoutDashboardFilled className={'me-1'}/>Dashboard</h4>
                     <Button asChild variant={path === 'settings' ? '' : 'outline'} className={'border-none justify-start'}>

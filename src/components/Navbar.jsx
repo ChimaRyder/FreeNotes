@@ -11,6 +11,7 @@ import {Link} from "react-router-dom"
 import userAuthenticate from "@/components/middleware/userAuthenticate.jsx";
 import ProfilePopup from "@/components/ProfilePopup.jsx";
 import {useEffect, useState} from "react";
+import {NotebookPen} from "lucide-react";
 
 const LoginPopup = () => {
     const [user, setUser] = useState([]);
@@ -42,10 +43,18 @@ const Navbar = () => {
        <NavigationMenu className={"max-w-full justify-between"}>
            <NavigationMenuList>
                <NavigationMenuItem className={"mr-5"}>
-                   <NavigationMenuLink asChild to={"/"} className={"font-bold cursor-pointer"}><Link to={"/"}>FreeNotes</Link></NavigationMenuLink>
+                   <NavigationMenuLink asChild className={"font-bold cursor-pointer"}>
+                       <Link to={"/"} className={'flex flex-row'}>
+                           <NotebookPen className={'mr-2'}/>FreeNotes
+                       </Link>
+                   </NavigationMenuLink>
                </NavigationMenuItem>
                <NavigationMenuItem>
-                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>About</NavigationMenuLink>
+                   <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+                       <Link to={'/about'}>
+                           About
+                       </Link>
+                   </NavigationMenuLink>
                </NavigationMenuItem>
            </NavigationMenuList>
            <NavigationMenuList>

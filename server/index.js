@@ -19,7 +19,7 @@ connectDB()
 
 app.get('/search', async (req, res) => {
     const {query} = req.query;
-    const response = await confessionModel.find({ name_to:query })
+    const response = await confessionModel.find({ name_to: {$regex: new RegExp("^" + query, "i")}})
     return res.json({confessions:response})
 })
 
