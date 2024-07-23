@@ -14,15 +14,12 @@ app.use(express.json())
 app.use(cors({
     credentials: true,
     origin: process.env.ORIGIN,
-    exposedHeaders: ["Set-Cookie"]
 }))
 app.use(session({
     secret: process.env.SESSION_SECRET,
     cookie: {
         maxAge: 100000,
         httpOnly: false,
-        secure: true,
-        sameSite: "none",
     },
     saveUninitialized: false,
     store: mongostore.create({
