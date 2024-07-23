@@ -21,6 +21,7 @@ app.use(session({
         maxAge: 100000,
         httpOnly: false,
         sameSite: "None",
+        secure: true,
     },
     saveUninitialized: false,
     store: mongostore.create({
