@@ -6,12 +6,22 @@ const confessionModel = require('./models/confession.js')
 const cors = require('cors')
 const jwt = require('jsonwebtoken');
 const cookieparser = require('cookie-parser');
+const session = require('express-session');
+const mongostore = require('connect-mongo');
 
 const app = express()
 app.use(express.json())
 app.use(cors({
     credentials: true,
     origin: process.env.ORIGIN,
+}))
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    cookie: {maxAge: 100000},
+    saveUninitialized: false,
+    store: mongostore.create({
+        mongoUrl: process.env.URI,
+    })
 }))
 app.use(cookieparser())
 
@@ -54,10 +64,7 @@ app.post('/login', (req, res) => {
             if (!user.validatePassword(password)) {
                 return res.status(401).send("Invalid username or password.")
             } else {
-                const token = user.generateAuth();
-
-                res.cookie("SESSION_TOKEN", token, {
-                })
+                req.session.SESSION_TOKEN = user.generateAuth();
 
                 return res.status(200).json(req.body);
             }
@@ -71,7 +78,7 @@ app.post('/login', (req, res) => {
 
 app.get('/auth/token', (req, res) => {
     try {
-        const token = req.cookies.SESSION_TOKEN;
+        const token = req.session.SESSION_TOKEN;
         const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         userModel.findById(_id)
             .then(user => {
@@ -79,22 +86,22 @@ app.get('/auth/token', (req, res) => {
                 return res.status(200).json(req.user);
             })
             .catch(() => {
-                res.clearCookie("SESSION_TOKEN");
+                req.session.destroy();
                 return res.status(401).send('User no longer not exist.');
             })
     } catch {
-        res.clearCookie("SESSION_TOKEN");
+        req.session.destroy();
         return res.status(401).send('Token does not exist or has expired');
     }
 })
 
 app.get('/logout', (req, res) => {
-    res.clearCookie("SESSION_TOKEN");
+    req.session.destroy();
     return res.status(200).send("Successful Logout.");
 })
 
 app.post('/submitNote', (req, res) => {
-    const token = req.cookies.SESSION_TOKEN;
+    const token = req.session.SESSION_TOKEN;
     const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
     const {color, name_to, content} = req.body;
@@ -111,7 +118,7 @@ app.post('/submitNote', (req, res) => {
 })
 
 app.get('/getCreatedNotes', async (req, res) => {
-    const token = req.cookies.SESSION_TOKEN;
+    const token = req.session.SESSION_TOKEN;
     const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
     const response = await confessionModel.find({
