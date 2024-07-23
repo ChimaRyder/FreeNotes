@@ -7,7 +7,7 @@ const ProfilePopup = ({username, onLogout}) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        fetch(process.env.API_LINK + '/logout', {credentials: "include"})
+        fetch(import.meta.env.VITE_API_LINK + '/logout', {credentials: "include"})
             .then(() => {
                 onLogout();
                 navigate('/');

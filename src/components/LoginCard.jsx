@@ -38,7 +38,7 @@ const LoginCard = ({onLogin}) => {
 
     function onSubmit(user) {
         axios.defaults.withCredentials = true;
-        axios.post(process.env.API_LINK + '/login', user)
+        axios.post(import.meta.env.VITE_API_LINK + '/login', user)
             .then(() => {
                 setMessage("");
                 navigate("/dashboard/settings");

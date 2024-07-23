@@ -31,7 +31,7 @@ const signupSchema = z.object({
     }
 }).superRefine(async ({username}, ctx) => {
     const userExists = async () => {
-        const res = await fetch(process.env.API_LINK + "/userSearch?query=" + username)
+        const res = await fetch(import.meta.env.VITE_API_LINK + "/userSearch?query=" + username)
         const data = await res.json();
         return data.userExists;
     }
@@ -63,7 +63,7 @@ const SignUpCard = () => {
     })
 
     const onSubmit = (user) => {
-        axios.post(process.env.API_LINK + '/register', user)
+        axios.post(import.meta.env.VITE_API_LINK + '/register', user)
             .then(() => {
                 toast.success("Success!", {
                     description:"Your account has been created. Please login.",

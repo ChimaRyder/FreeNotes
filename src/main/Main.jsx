@@ -9,10 +9,10 @@ import {toast} from "sonner";
 function Main() {
     const [confessions, setConfessions] = useState([])
     const [query, setQuery] = useState('');
-    useEffect(() => {
 
+    useEffect(() => {
         const fetchConfessions = async () => {
-            const res = await fetch(process.env.API_LINK + '/search?query=' + query, {credentials:"include"})
+            const res = await fetch(import.meta.env.VITE_API_LINK + '/search?query=' + query, {credentials:"include"})
             const data = await res.json()
             setConfessions(data.confessions)
         }

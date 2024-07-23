@@ -60,7 +60,7 @@ const CreateNote = () => {
         const fullNote = {...note, color : bgcolor};
 
         axios.defaults.withCredentials = true;
-        axios.post(process.env.API_LINK + '/submitNote', fullNote)
+        axios.post(import.meta.env.VITE_API_LINK + '/submitNote', fullNote)
             .then(() => {
                 navigate("/dashboard/mynotes");
                 toast.success("Success!", {
