@@ -38,7 +38,7 @@ const LoginCard = ({onLogin}) => {
 
     function onSubmit(user) {
         axios.defaults.withCredentials = true;
-        axios.post('http://localhost:3000/login', user)
+        axios.post(process.env.API_LINK + '/login', user)
             .then(() => {
                 setMessage("");
                 navigate("/dashboard/settings");

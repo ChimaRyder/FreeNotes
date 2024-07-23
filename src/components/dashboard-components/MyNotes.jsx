@@ -7,7 +7,7 @@ const MyNotes = () => {
     useEffect(() => {
 
         const fetchConfessions = async () => {
-            const res = await fetch('http://localhost:3000/getCreatedNotes', {credentials: "include"})
+            const res = await fetch(process.env.API_LINK + '/getCreatedNotes', {credentials: "include"})
             const data = await res.json()
             setConfessions(data.created_notes)
         }

@@ -12,7 +12,7 @@ function Main() {
     useEffect(() => {
 
         const fetchConfessions = async () => {
-            const res = await fetch('http://localhost:3000/search?query=' + query, {credentials:"include"})
+            const res = await fetch(process.env.API_LINK + '/search?query=' + query, {credentials:"include"})
             const data = await res.json()
             setConfessions(data.confessions)
         }
