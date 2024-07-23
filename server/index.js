@@ -20,8 +20,6 @@ app.use(session({
     cookie: {
         maxAge: 100000,
         httpOnly: false,
-        sameSite: "None",
-        secure: true,
     },
     saveUninitialized: false,
     store: mongostore.create({
