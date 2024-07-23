@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar.jsx";
 import "../App.css"
 import SignUpCard from "@/components/SignUpCard.jsx";
 
