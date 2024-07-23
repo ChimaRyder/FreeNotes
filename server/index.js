@@ -57,7 +57,6 @@ app.post('/login', (req, res) => {
                 const token = user.generateAuth();
 
                 res.cookie("SESSION_TOKEN", token, {
-                    httpOnly: true,
                 })
 
                 return res.status(200).json(req.body);
