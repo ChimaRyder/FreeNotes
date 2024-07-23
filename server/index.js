@@ -19,7 +19,6 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     cookie: {
         maxAge: 100000,
-        SameSite: "None",
         httpOnly: false,
     },
     saveUninitialized: false,
