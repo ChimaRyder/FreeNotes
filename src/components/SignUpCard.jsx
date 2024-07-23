@@ -75,7 +75,7 @@ const SignUpCard = () => {
 
     return (
         <>
-        <Card className={"w-[350px]"}>
+        <Card className={"w-[350px] bg-background"}>
             <CardHeader>
                 <CardTitle>Sign Up!</CardTitle>
                 <CardDescription>Start writing your FreeNotes today.</CardDescription>

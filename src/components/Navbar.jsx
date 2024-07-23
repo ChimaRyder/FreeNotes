@@ -40,7 +40,7 @@ const Navbar = () => {
 
 
     return (
-       <NavigationMenu className={"max-w-full justify-between"}>
+       <NavigationMenu className={"max-w-full justify-between flex-initial"}>
            <NavigationMenuList>
                <NavigationMenuItem className={"mr-5"}>
                    <NavigationMenuLink asChild className={"font-bold cursor-pointer"}>

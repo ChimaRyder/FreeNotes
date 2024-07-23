@@ -16,7 +16,7 @@ const ProfilePopup = ({username, onLogout}) => {
     }
 
     return (
-        <Card className={"border-0 shadow-none flex flex-col justify-center items-center"}>
+        <Card className={"border-0 shadow-none flex flex-col justify-center items-center bg-background"}>
             <CardHeader className={'!p-3'}>
                 <IconUserFilled size={80}/>
                 <CardTitle className={"!mt-5"}>{username}</CardTitle>

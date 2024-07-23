@@ -16,7 +16,7 @@ userSchema.methods.validatePassword = function(password) {
 }
 
 userSchema.methods.generateAuth = function() {
-    return jwt.sign({_id:this._id}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "1h"})
+    return jwt.sign({_id:this._id}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "12h"})
 }
 
 const userModel = mongoose.model("User", userSchema);

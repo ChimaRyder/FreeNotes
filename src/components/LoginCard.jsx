@@ -50,7 +50,7 @@ const LoginCard = ({onLogin}) => {
     }
 
     return (
-        <Card className={"border-0 shadow-none"}>
+        <Card className={"border-0 shadow-none bg-background"}>
            <CardHeader>
                <CardTitle>Welcome Back!</CardTitle>
                <CardDescription>Please login to continue.</CardDescription>
@@ -87,7 +87,7 @@ const LoginCard = ({onLogin}) => {
                    </form>
                </Form>
                <Separator className={"flex items-center justify-center"}>
-                  <div className={"text-xs bg-white p-2 text-muted-foreground"}>Or</div>
+                  <div className={"text-xs bg-background p-2 text-muted-foreground"}>Or</div>
                </Separator>
 
                <Button asChild className={"w-full !mt-5"}>

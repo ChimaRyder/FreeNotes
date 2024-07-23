@@ -14,25 +14,25 @@ import {Separator} from "@/components/ui/separator.jsx";
 
 function App() {
   return (
-    <>
         <BrowserRouter>
-            <Navbar></Navbar>
-            <Routes>
-                <Route index element={<Main/>}/>
-                <Route path={'/about'} element={<About/>}/>
-                <Route path={"/signup"} element={<SignUpPage/>}/>
-                <Route element={<Auth/>}>
-                    <Route path={"/dashboard"} element={<DashBoard/>}>
-                        <Route path={"settings"} element={<Settings/>}/>
-                        <Route path={"mynotes"} element={<MyNotes/>}/>
-                        <Route path={"create"} element={<CreateNote/>}/>
+            <div className={'min-h-screen flex flex-col justify-between'}>
+                <Navbar></Navbar>
+                <Routes>
+                    <Route index element={<Main/>}/>
+                    <Route path={'/about'} element={<About/>}/>
+                    <Route path={"/signup"} element={<SignUpPage/>}/>
+                    <Route element={<Auth/>}>
+                        <Route path={"/dashboard"} element={<DashBoard/>}>
+                            <Route path={"settings"} element={<Settings/>}/>
+                            <Route path={"mynotes"} element={<MyNotes/>}/>
+                            <Route path={"create"} element={<CreateNote/>}/>
+                        </Route>
                     </Route>
-                </Route>
-            </Routes>
-            <Toaster/>
-            <Separator className={'mt-10 mb-5'}/>
+                </Routes>
+                <Toaster/>
+                <Separator className={'mt-10 mb-5'}/>
+            </div>
         </BrowserRouter>
-    </>
   )
 }
 

@@ -125,7 +125,7 @@ const CreateNote = () => {
                                 ))}
                             </div>
 
-                            <Button type={'submit'} disabled={!form.formState.isDirty || !form.formState.isValid} className={'w-full'}>Post Your Message</Button>
+                            <Button type={'submit'} disabled={!form.formState.isDirty || !form.formState.isValid} className={'w-full'}>Post Your Note</Button>
                         </div>
                     </form>
                 </Form>

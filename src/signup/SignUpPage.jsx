@@ -5,7 +5,7 @@ import SignUpCard from "@/components/SignUpCard.jsx";
 const SignUpPage = () => {
     return (
         <>
-            <div className={"flex justify-center items-center mt-20 text-left"}>
+            <div className={"flex justify-center items-center text-left"}>
                 <SignUpCard></SignUpCard>
             </div>
         </>

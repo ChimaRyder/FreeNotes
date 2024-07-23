@@ -11,6 +11,10 @@ const Settings = () => {
                 </h3>
 
                 <Separator className={'mt-5 mb-8'}/>
+
+                <div>
+                    <h3 className={'italic'}>Something is brewing...</h3>
+                </div>
             </div>
         </>
     );
