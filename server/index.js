@@ -17,7 +17,11 @@ app.use(cors({
 }))
 app.use(session({
     secret: process.env.SESSION_SECRET,
-    cookie: {maxAge: 100000},
+    cookie: {
+        maxAge: 100000,
+        secure: true,
+        SameSite: "None",
+    },
     saveUninitialized: false,
     store: mongostore.create({
         mongoUrl: process.env.URI,
