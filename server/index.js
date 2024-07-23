@@ -27,6 +27,7 @@ app.use(session({
     })
 }))
 app.use(cookieparser())
+app.enable("trust proxy")
 
 connectDB()
 
