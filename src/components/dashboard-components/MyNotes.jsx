@@ -1,13 +1,15 @@
 import {IconNotes} from "@tabler/icons-react";
 import {Separator} from "@/components/ui/separator.jsx";
 import {useEffect, useState} from "react";
+import {getAuthenticate} from "@/components/middleware/userAuthenticate.jsx";
 
 const MyNotes = () => {
     const [confessions, setConfessions] = useState([])
     useEffect(() => {
 
         const fetchConfessions = async () => {
-            const res = await fetch(import.meta.env.VITE_API_LINK + '/getCreatedNotes', {credentials: "include"})
+            const auth = getAuthenticate();
+            const res = await fetch(import.meta.env.VITE_API_LINK + '/getCreatedNotes', {credentials: "include", headers: {authorization: auth}})
             const data = await res.json()
             setConfessions(data.created_notes)
         }

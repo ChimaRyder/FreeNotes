@@ -39,10 +39,10 @@ const LoginCard = ({onLogin}) => {
     function onSubmit(user) {
         axios.defaults.withCredentials = true;
         axios.post(import.meta.env.VITE_API_LINK + '/login', user)
-            .then(() => {
+            .then((result) => {
                 setMessage("");
                 navigate("/dashboard/settings");
-                onLogin();
+                onLogin(result.headers.authorization);
             })
             .catch(err => {
                 setMessage(err.response.data)

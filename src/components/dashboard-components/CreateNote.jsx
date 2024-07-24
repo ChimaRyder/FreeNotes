@@ -17,6 +17,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import axios from "axios";
 import {toast} from "sonner";
 import {useNavigate} from "react-router-dom";
+import {getAuthenticate} from "@/components/middleware/userAuthenticate.jsx";
 
 const noteSchema = z.object({
     name_to: z
@@ -58,9 +59,9 @@ const CreateNote = () => {
 
     const submitNote = (note) => {
         const fullNote = {...note, color : bgcolor};
-
+        const auth = getAuthenticate();
         axios.defaults.withCredentials = true;
-        axios.post(import.meta.env.VITE_API_LINK + '/submitNote', fullNote)
+        axios.post(import.meta.env.VITE_API_LINK + '/submitNote', fullNote, {headers: {Authorization: auth}})
             .then(() => {
                 navigate("/dashboard/mynotes");
                 toast.success("Success!", {

@@ -14,20 +14,21 @@ app.use(express.json())
 app.use(cors({
     credentials: true,
     origin: process.env.ORIGIN,
+    exposedHeaders: ['Authorization'],
 }))
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    cookie: {
-        maxAge: 100000,
-        httpOnly: false,
-    },
-    saveUninitialized: false,
-    store: mongostore.create({
-        mongoUrl: process.env.URI,
-    })
-}))
-app.use(cookieparser())
-app.enable("trust proxy")
+// app.use(session({
+//     secret: process.env.SESSION_SECRET,
+//     cookie: {
+//         maxAge: 100000,
+//         httpOnly: false,
+//     },
+//     saveUninitialized: false,
+//     store: mongostore.create({
+//         mongoUrl: process.env.URI,
+//     })
+// }))
+// app.use(cookieparser())
+// app.enable("trust proxy")
 
 connectDB()
 
@@ -68,7 +69,8 @@ app.post('/login', (req, res) => {
             if (!user.validatePassword(password)) {
                 return res.status(401).send("Invalid username or password.")
             } else {
-                req.session.SESSION_TOKEN = user.generateAuth();
+                const SESSION_TOKEN = user.generateAuth();
+                res.setHeader("authorization", 'Bearer ' + SESSION_TOKEN);
 
                 return res.status(200).json(req.body);
             }
@@ -82,7 +84,7 @@ app.post('/login', (req, res) => {
 
 app.get('/auth/token', (req, res) => {
     try {
-        const token = req.session.SESSION_TOKEN;
+        const token = req.headers.authorization.split(' ')[1];
         const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         userModel.findById(_id)
             .then(user => {
@@ -90,22 +92,26 @@ app.get('/auth/token', (req, res) => {
                 return res.status(200).json(req.user);
             })
             .catch(() => {
-                req.session.destroy();
+                // req.session.destroy();
+                res.removeHeader('authorization');
                 return res.status(401).send('User no longer not exist.');
             })
     } catch {
-        req.session.destroy();
+        // req.session.destroy();
+        res.removeHeader('authorization');
         return res.status(401).send('Token does not exist or has expired');
     }
 })
 
 app.get('/logout', (req, res) => {
-    req.session.destroy();
+    // req.session.destroy();
+    res.removeHeader('authorization');
     return res.status(200).send("Successful Logout.");
 })
 
 app.post('/submitNote', (req, res) => {
-    const token = req.session.SESSION_TOKEN;
+    // const token = req.session.SESSION_TOKEN;
+    const token = req.headers['authorization'].split(' ')[1];
     const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
     const {color, name_to, content} = req.body;
@@ -122,7 +128,8 @@ app.post('/submitNote', (req, res) => {
 })
 
 app.get('/getCreatedNotes', async (req, res) => {
-    const token = req.session.SESSION_TOKEN;
+    // const token = req.session.SESSION_TOKEN;
+    const token = req.headers['authorization'].split(' ')[1];
     const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
     const response = await confessionModel.find({

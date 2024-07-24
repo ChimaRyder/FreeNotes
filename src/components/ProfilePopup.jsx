@@ -3,12 +3,14 @@ import {IconUserFilled} from "@tabler/icons-react";
 import {Separator} from "@/components/ui/separator.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Link, useNavigate} from 'react-router-dom'
+import {setAuthenticate} from "@/components/middleware/userAuthenticate.jsx";
 const ProfilePopup = ({username, onLogout}) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
         fetch(import.meta.env.VITE_API_LINK + '/logout', {credentials: "include"})
             .then(() => {
+                setAuthenticate(null);
                 onLogout();
                 navigate('/');
             })

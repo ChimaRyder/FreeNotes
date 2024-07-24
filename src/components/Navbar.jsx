@@ -8,7 +8,7 @@ import {IconUserFilled} from "@tabler/icons-react";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.jsx";
 import LoginCard from "@/components/LoginCard.jsx";
 import {Link} from "react-router-dom"
-import userAuthenticate from "@/components/middleware/userAuthenticate.jsx";
+import userAuthenticate, {getAuthenticate, setAuthenticate} from "@/components/middleware/userAuthenticate.jsx";
 import ProfilePopup from "@/components/ProfilePopup.jsx";
 import {useEffect, useState} from "react";
 import {NotebookPen} from "lucide-react";
@@ -16,8 +16,9 @@ import {NotebookPen} from "lucide-react";
 const LoginPopup = () => {
     const [user, setUser] = useState([]);
 
-    const onLogin = () => {
+    const onLogin = (auth) => {
         const x = async () => {
+            setAuthenticate(auth ?? getAuthenticate());
             const y = await userAuthenticate();
             setUser(y);
         }
