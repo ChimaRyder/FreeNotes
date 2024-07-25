@@ -13,6 +13,7 @@ const userAuthenticate = () => {
             return res.json();
         })
         .catch(() => {
+            sessionStorage.clear();
             return null;
         });
 }

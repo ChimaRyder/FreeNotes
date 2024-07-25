@@ -15,12 +15,15 @@ import {NotebookPen} from "lucide-react";
 
 const LoginPopup = () => {
     const [user, setUser] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const onLogin = (auth) => {
         const x = async () => {
             setAuthenticate(auth ?? getAuthenticate());
+            setLoading(true);
             const y = await userAuthenticate();
             setUser(y);
+            setLoading(false);
         }
 
         x();
@@ -32,7 +35,7 @@ const LoginPopup = () => {
 
     return (
         <>
-            {user ? <ProfilePopup username = {user.username} onLogout={onLogin}/> : <LoginCard onLogin = {onLogin}/>}
+            {user ? <ProfilePopup loading = {loading} username = {user.username} onLogout={onLogin}/> : <LoginCard onLogin = {onLogin}/>}
         </>
     )
 }

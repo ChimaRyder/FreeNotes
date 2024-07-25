@@ -5,16 +5,20 @@ import {Input} from "@/components/ui/input.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Search} from "lucide-react";
 import {toast} from "sonner";
+import {Skeleton} from "@/components/ui/skeleton.jsx";
 
 function Main() {
     const [confessions, setConfessions] = useState([])
     const [query, setQuery] = useState('');
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchConfessions = async () => {
+            setLoading(true);
             const res = await fetch(import.meta.env.VITE_API_LINK + '/search?query=' + query, {credentials:"include"})
             const data = await res.json()
             setConfessions(data.confessions)
+            setLoading(false);
         }
 
         fetchConfessions();
@@ -64,16 +68,25 @@ function Main() {
                 <h3 className={'font-bold italic text-sm m-5'}>There {confessions.length === 1 ? 'is' : 'are'} {confessions.length} {confessions.length === 1 ? 'confession' : 'confessions'} found</h3>
 
                 <div className={'grid grid-cols-4 gap-3 min-h-40'}>
-                    {confessions.map(note => (
-                        <>
+                    {loading &&
+                        Array(8)
+                            .fill(true)
+                            .map((item, index) => (
+                                    <Skeleton
+                                        key = {index}
+                                        className={'w-[300px] h-[300px] rounded-md p-5'}
+                                    />
+                            ))
+                    }
+                    {!loading && confessions.map((note, index) => (
                             <div
+                                key={index + note}
                                 className={'w-[300px] h-[300px] shadow-2xl rounded-md p-5 flex flex-col items-start'}
                                 style={{background: note.color}}>
                                 <h2 className={'text-lg mb-3'}><span
                                     className={'font-bold'}>To: </span>{note.name_to}</h2>
                                 <p className={'text-md text-justify'}>{note.content}</p>
                             </div>
-                        </>
                     ))}
                 </div>
             </div>

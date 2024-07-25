@@ -111,32 +111,43 @@ app.get('/logout', (req, res) => {
 
 app.post('/submitNote', (req, res) => {
     // const token = req.session.SESSION_TOKEN;
-    const token = req.headers['authorization'].split(' ')[1];
-    const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    try {
+        const token = req.headers['authorization'].split(' ')[1];
+        const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-    const {color, name_to, content} = req.body;
-    const confession = new confessionModel();
+        const {color, name_to, content} = req.body;
+        const confession = new confessionModel();
 
-    confession.user_id = _id;
-    confession.color = color;
-    confession.name_to = name_to;
-    confession.content = content;
+        confession.user_id = _id;
+        confession.color = color;
+        confession.name_to = name_to;
+        confession.content = content;
 
-    confession.save()
-        .then(conf => res.json(conf))
-        .catch(err => res.json(err))
+        confession.save()
+            .then(conf => res.json(conf))
+            .catch(err => res.json(err))
+    } catch {
+        res.removeHeader('authorization');
+        return res.status(401).send('Token does not exist or has expired');
+    }
 })
 
 app.get('/getCreatedNotes', async (req, res) => {
     // const token = req.session.SESSION_TOKEN;
-    const token = req.headers['authorization'].split(' ')[1];
-    const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    try {
+        const token = req.headers['authorization'].split(' ')[1];
+        const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
 
-    const response = await confessionModel.find({
-        user_id: _id,
-    })
+        const response = await confessionModel.find({
+            user_id: _id,
+        })
 
-    return res.json({created_notes : response})
+        return res.json({created_notes : response})
+    } catch (e) {
+        res.removeHeader('authorization');
+        return res.status(401).send('Token does not exist or has expired');
+    }
+
 })
 
 app.listen(3000, () => {

@@ -4,7 +4,8 @@ import {Separator} from "@/components/ui/separator.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {Link, useNavigate} from 'react-router-dom'
 import {setAuthenticate} from "@/components/middleware/userAuthenticate.jsx";
-const ProfilePopup = ({username, onLogout}) => {
+import {Skeleton} from "@/components/ui/skeleton.jsx";
+const ProfilePopup = ({loading, username, onLogout}) => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -19,9 +20,10 @@ const ProfilePopup = ({username, onLogout}) => {
 
     return (
         <Card className={"border-0 shadow-none flex flex-col justify-center items-center bg-background"}>
-            <CardHeader className={'!p-3'}>
+            <CardHeader className={'!p-3 flex items-center'}>
                 <IconUserFilled size={80}/>
-                <CardTitle className={"!mt-5"}>{username}</CardTitle>
+                {loading && <CardTitle className={"!mt-5"}><Skeleton className={'w-[100px] h-[24px] rounded-md'}/></CardTitle>}
+                {!loading && <CardTitle className={"!mt-5"}>{username}</CardTitle>}
             </CardHeader>
             <CardContent className={'flex flex-col w-full space-y-2'}>
                 <Separator className={'my-3'}/>
