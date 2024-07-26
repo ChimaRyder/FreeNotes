@@ -1,8 +1,7 @@
-# React + Vite
+# FreeNotes
+[FreeNotes](https://freenotes.onrender.com) is an anonymous confession board where you can share your deepest thoughts without fear.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Production
+This project is inspired from [UnsentProject](https://theunsentproject.com), an anonymous confession board aimed at confessing unconveyed feelings for first loves and crushes. While FreeNotes is similar, it also provides user authentication to review or delete any specific notes published as well.
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This is developed by [Frenz R (ChimaRyder)](https://github.com/ChimaRyder) as a means of practicing MERN Stack using Vite + React for the front-end, Express for the back-end, and MongoDB for the database.
