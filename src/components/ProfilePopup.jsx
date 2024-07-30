@@ -5,17 +5,27 @@ import {Button} from "@/components/ui/button.jsx";
 import {Link, useNavigate} from 'react-router-dom'
 import {setAuthenticate} from "@/components/middleware/userAuthenticate.jsx";
 import {Skeleton} from "@/components/ui/skeleton.jsx";
-const ProfilePopup = ({loading, username, onLogout}) => {
+import {useState} from "react";
+import {Loader2} from "lucide-react";
+const ProfilePopup = ({loading, username, onLogout, closePopup}) => {
+    const [logoutLoading, setLogoutLoading] = useState(false);
     const navigate = useNavigate();
 
     const handleLogout = () => {
+        setLogoutLoading(true);
         fetch(import.meta.env.VITE_API_LINK + '/logout', {credentials: "include"})
             .then(() => {
+                setLogoutLoading(false);
                 setAuthenticate(null);
                 onLogout();
+                closePopup();
                 navigate('/');
             })
-            .catch(err => console.log(err))
+            .catch(err =>
+            {
+                setLogoutLoading(false);
+                console.log(err)
+            })
     }
 
     return (
@@ -47,7 +57,9 @@ const ProfilePopup = ({loading, username, onLogout}) => {
                     <Button variant={'outline'} className={'w-max-full'} asChild>
                         <Link to={'/dashboard/settings'}>Dashboard</Link>
                     </Button>
-                    <Button variant={'outline'} className={'!w-max-full'} onClick={()=> {handleLogout()}}>Logout</Button>
+                    <Button disabled = {loading} variant={'outline'} className={'!w-max-full'} onClick={()=> {handleLogout()}}>
+                        {logoutLoading && <Loader2 className={"mr-2 w-4 h-4 animate-spin"}/>}
+                        Logout </Button>
                     </>
                 }
             </CardContent>

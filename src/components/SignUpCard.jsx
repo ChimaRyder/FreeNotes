@@ -8,6 +8,8 @@ import {Button} from "@/components/ui/button.jsx";
 import axios from "axios";
 import {toast} from "sonner";
 import {useNavigate} from "react-router-dom"
+import {useState} from "react";
+import {Loader2} from "lucide-react";
 
 const signupSchema = z.object({
     username: z
@@ -52,6 +54,7 @@ const signupSchema = z.object({
 });
 
 const SignUpCard = () => {
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const form = useForm({
         resolver:zodResolver(signupSchema),
@@ -63,14 +66,21 @@ const SignUpCard = () => {
     })
 
     const onSubmit = (user) => {
+        setLoading(true);
         axios.post(import.meta.env.VITE_API_LINK + '/register', user)
             .then(() => {
+                setLoading(false);
                 toast.success("Success!", {
                     description:"Your account has been created. Please login.",
                 })
                 navigate('/');
             })
-            .catch(err => console.log(err))
+            .catch(err =>
+            {
+                setLoading(false);
+                console.log(err)
+            }
+            )
     }
 
     return (
@@ -121,7 +131,10 @@ const SignUpCard = () => {
                             )}
                         />
 
-                        <Button type={"submit"} className={"w-full !mt-5"}>Sign Up</Button>
+                        <Button disabled = {loading} type={"submit"} className={"w-full !mt-5"}>
+                            {loading && <Loader2 className={"mr-2 w-4 h-4 animate-spin"}/>}
+                            Sign Up
+                        </Button>
                     </form>
                 </Form>
             </CardContent>

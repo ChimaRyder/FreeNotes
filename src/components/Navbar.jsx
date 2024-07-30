@@ -13,7 +13,7 @@ import ProfilePopup from "@/components/ProfilePopup.jsx";
 import {useEffect, useState} from "react";
 import {NotebookPen} from "lucide-react";
 
-const LoginPopup = () => {
+const LoginPopup = ({setPopupOpen}) => {
     const [user, setUser] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -33,14 +33,19 @@ const LoginPopup = () => {
         onLogin();
     }, []);
 
+    const closePopup = () => {
+        setPopupOpen(false);
+    }
+
     return (
         <>
-            {user ? <ProfilePopup loading = {loading} username = {user.username} onLogout={onLogin}/> : <LoginCard onLogin = {onLogin}/>}
+            {user ? <ProfilePopup loading = {loading} username = {user.username} onLogout={onLogin} closePopup = {closePopup}/> : <LoginCard closePopup = {closePopup} onLogin = {onLogin}/>}
         </>
     )
 }
 
 const Navbar = () => {
+    const [popupOpen, setPopupOpen] = useState(false);
 
 
     return (
@@ -63,14 +68,14 @@ const Navbar = () => {
            </NavigationMenuList>
            <NavigationMenuList>
                <NavigationMenuItem>
-                       <Popover>
+                       <Popover open={popupOpen} onOpenChange={setPopupOpen}>
                            <PopoverTrigger>
                                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                                    <IconUserFilled/>
                                </NavigationMenuLink>
                            </PopoverTrigger>
                            <PopoverContent align={"end"} sideOffset={5}>
-                               <LoginPopup/>
+                               <LoginPopup setPopupOpen = {setPopupOpen} />
                            </PopoverContent>
                        </Popover>
                </NavigationMenuItem>

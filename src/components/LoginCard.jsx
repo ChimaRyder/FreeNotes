@@ -15,6 +15,7 @@ import {Separator} from "@/components/ui/separator.jsx";
 import {Link, useNavigate} from "react-router-dom";
 import axios from "axios"
 import {useState} from "react";
+import {Loader2} from "lucide-react";
 
 const loginSchema = z.object({
     username: z
@@ -24,9 +25,10 @@ const loginSchema = z.object({
         .string()
         .min(1, "Please enter your password."),
 })
-const LoginCard = ({onLogin}) => {
+const LoginCard = ({onLogin, closePopup}) => {
     const [message, setMessage] = useState("");
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
     const form = useForm({
         resolver:zodResolver(loginSchema),
@@ -37,14 +39,18 @@ const LoginCard = ({onLogin}) => {
     })
 
     function onSubmit(user) {
+        setLoading(true);
         axios.defaults.withCredentials = true;
         axios.post(import.meta.env.VITE_API_LINK + '/login', user)
             .then((result) => {
+                setLoading(false);
                 setMessage("");
                 navigate("/dashboard/settings");
+                closePopup();
                 onLogin(result.headers.authorization);
             })
             .catch(err => {
+                setLoading(false);
                 setMessage(err.response.data)
             })
     }
@@ -83,7 +89,10 @@ const LoginCard = ({onLogin}) => {
                            )}
                        />
 
-                       <Button type={"submit"} className={"w-full !my-5"}>Login</Button>
+                       <Button disabled = {loading} type={"submit"} className={"w-full !my-5"}>
+                           {loading && <Loader2 className={"mr-2 w-4 h-4 animate-spin"}/>}
+                               Login
+                           </Button>
                    </form>
                </Form>
                <Separator className={"flex items-center justify-center"}>

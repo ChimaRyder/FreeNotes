@@ -3,10 +3,15 @@ import {Separator} from "@/components/ui/separator.jsx";
 import {useEffect, useState} from "react";
 import {getAuthenticate} from "@/components/middleware/userAuthenticate.jsx";
 import {Skeleton} from "@/components/ui/skeleton.jsx";
+import {Pagination, PaginationItem, PaginationNext, PaginationPrevious} from "@/components/ui/pagination.jsx";
 
 const MyNotes = () => {
     const [confessions, setConfessions] = useState([])
     const [loading, setLoading] = useState(false);
+    const notesPerPage  = 6;
+    const [startIndex, setStartIndex] = useState(0);
+    const [endIndex, setEndIndex] = useState(notesPerPage);
+
     useEffect(() => {
 
         const fetchConfessions = async () => {
@@ -31,7 +36,7 @@ const MyNotes = () => {
 
                 <Separator className={'mt-5 mb-8'}/>
 
-                <div className={'flex justify-center'}>
+                <div className={'flex flex-col justify-center'}>
                     <div className={'grid grid-cols-3 gap-4'}>
                         {loading &&
                             Array(6)
@@ -45,7 +50,7 @@ const MyNotes = () => {
                                     )
                                 )
                         }
-                        {!loading && confessions.map((note, index) => (
+                        {!loading && confessions.slice(startIndex, endIndex).map((note, index) => (
                                 <div
                                     key = {index + note}
                                     className={'w-[300px] h-[300px] shadow-2xl rounded-md p-5 flex flex-col items-start'}
@@ -56,6 +61,31 @@ const MyNotes = () => {
                                 </div>
                         ))}
                     </div>
+
+                    <Pagination className={'list-none mt-5'}>
+                        <PaginationItem>
+                            <PaginationPrevious
+                                className={startIndex === 0 ?  "pointer-events-none opacity-50" : "cursor-pointer"}
+
+                                onClick = {() => {
+                                    setStartIndex(startIndex - notesPerPage);
+                                    setEndIndex(endIndex - notesPerPage);
+                                }}
+                            />
+                        </PaginationItem>
+
+                        <PaginationItem>
+                            <PaginationNext
+                                className={endIndex >= confessions.length ?  "pointer-events-none opacity-50" : "cursor-pointer"}
+
+                                onClick = {() => {
+                                    setStartIndex(startIndex + notesPerPage);
+                                    setEndIndex(endIndex + notesPerPage);
+                                }}
+                            />
+                        </PaginationItem>
+                    </Pagination>
+
                 </div>
             </div>
         </>
