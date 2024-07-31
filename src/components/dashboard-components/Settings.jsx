@@ -7,6 +7,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import userAuthenticate from "@/components/middleware/userAuthenticate.jsx";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form.jsx";
 import {Input} from "@/components/ui/input.jsx";
+import {Switch} from "@/components/ui/switch.jsx";
 
 const usernameSchema = z.object({
     username: z
@@ -51,7 +52,7 @@ const Settings = () => {
     const form = useForm({
         resolver: zodResolver(usernameSchema),
         defaultValues: {
-            username: "",
+            username: user.username,
         }
     })
 
@@ -69,14 +70,13 @@ const Settings = () => {
 
                 <Separator className={'mt-5 mb-8'}/>
 
-                <div>
                     <Form {...form}>
-                        <form onSubmit={handleSubmit} className={"space-y-2 flex flex-col items-start"}>
+                        <form onSubmit={handleSubmit} className={"space-y-5 w-1/2 invisible"}>
                             <FormField
                                 control = {form.control}
                                 name = "username"
                                 render = {({field}) =>(
-                                    <FormItem>
+                                    <FormItem className={"flex flex-col items-start"}>
                                         <FormLabel>Username</FormLabel>
                                         <FormControl>
                                             <Input placeholder={user.username} {...field}/>
@@ -85,9 +85,23 @@ const Settings = () => {
                                     </FormItem>
                                 )}
                             />
+                            <FormField
+                                control = {form.control}
+                                name = "dark_mode"
+                                render = {({field}) => (
+                                    <FormItem className={"!space-y-0 flex items-center space-x-2"}>
+                                        <FormControl>
+                                            <Switch
+                                                checked = {field.value}
+                                                onCheckedChange = {field.onChange}
+                                            />
+                                        </FormControl>
+                                        <FormLabel>Dark Mode</FormLabel>
+                                    </FormItem>
+                                )}
+                            />
                         </form>
                     </Form>
-                </div>
             </div>
         </>
     );
