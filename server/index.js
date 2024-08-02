@@ -150,6 +150,21 @@ app.get('/getCreatedNotes', async (req, res) => {
 
 })
 
+app.post('/updateUsername', async (req, res) => {
+    try {
+        const token = req.headers['authorization'].split(' ')[1];
+        const _id = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+        const response = await userModel.findByIdAndUpdate(_id, req.body, {new: true});
+
+        return res.json ({status: "200", new_username: response.username});
+
+    } catch (e) {
+        res.removeHeader('authorization');
+        return res.status(401).send('Token does not exist or has expired');
+    }
+})
+
 app.listen(3000, () => {
     console.log("listening to port 3000");
 })
